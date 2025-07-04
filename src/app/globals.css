@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f0c11;
+  --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +17,14 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.idk > div {
+  background: #00000088;
+  border-radius: 10px;
+  padding: 5px;
 }
