@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: Climate_Crisis;
+  src: url('/fonts/Climate_Crisis/ClimateCrisis-Regular-VariableFont_YEAR.ttf');
+}
 
 :root {
   --background: #0f0c11;

@@ -1,4 +1,6 @@
+import { Climate_Crisis } from "next/font/google";
 import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 export default {
   content: [
@@ -20,12 +22,13 @@ export default {
         },
         fadeOut: {
           "0%": { opacity: "1" },
+          "50%": { opacity: "1" },
           "100%": { opacity: "0" }
         }
       },
       animation: {
-        fadeIn: "fadeIn 2s ease",
-        fadeOut: "fadeOut 1s ease",
+        fadeIn: "fadeIn 1.5s ease",
+        fadeOut: "fadeOut 0.5s ease",
       }
     },
   },

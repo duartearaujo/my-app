@@ -28,9 +28,6 @@ export default function Home() {
 		<>	
 			<Scene selection={setSelected} selected={selected} />
 			<Section id={'About Me'} selection={setSelected} selected={selected} >
-				<button className={`absolute top-5 left-5 bg-violet-950/60 backdrop-blur-md p-2 rounded-lg ${(selected !== null) ? 'animate-fadeIn' : 'animate-fadeOut'}`} onClick={() => {setSelected(null); console.log(selected)}}>
-					Back
-				</button>
 				<Text>
 					<Profile image="/foto1.jpg" />
 					<h1 className="text-4xl">Duarte Araújo</h1>

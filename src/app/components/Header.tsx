@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 gsap.registerPlugin(useGSAP);
 
-export default function Header({ selection }: {selection: (id: string | null) => void;}) {
+export default function Header({ fun }: {fun: (id: boolean) => void;}) {
 
     const header = useRef(null);
 
@@ -23,14 +23,14 @@ export default function Header({ selection }: {selection: (id: string | null) =>
 
     const onClickBack = contextSafe(() => {
         console.log("Back button clicked");
+        fun(false);
         gsap.to(header.current, {
-            duration: 0.3,
+            duration: 0.5,
             opacity: 0,
             y: -50,
             ease: "power3.in",
             onComplete: () => {
                 console.log("Header animation complete");
-                selection(null);
             }
         });
     });

@@ -12,7 +12,7 @@
 uniform float uTime;
 varying vec2 vUv;
 
-vec3 colorA = vec3(0.058823529411764705, 0.047058823529411764, 0.06666666666666667);
+vec3 colorA = vec3(0.0745, 0.0588, 0.0863);
 vec3 colorB = vec3(0.8941, 0.8902, 0.8902);
 
 void main() {
