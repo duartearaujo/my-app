@@ -15,6 +15,7 @@ import Background from "./components/Background";
 import Section from "./components/Section";
 import { useEffect, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
+import ContactForm from "./components/ContactForm";
 
 export default function Home() {
 
@@ -73,11 +74,7 @@ export default function Home() {
         		</div>
 			</Section>
 			<Section id={'Contacts'} selection={setSelected} selected={selected} >
-				<button className={`absolute top-5 left-5 bg-violet-950/60 backdrop-blur-md p-2 rounded-lg ${(selected !== null) ? 'animate-fadeIn' : 'animate-fadeOut'}`} onClick={() => {setSelected(null); console.log(selected)}}>
-					Back
-				</button>
-				<div className="flex flex-row gap-5 items-center justify-center">
-				</div>
+				<ContactForm />
 			</Section>
 		</>
 	);

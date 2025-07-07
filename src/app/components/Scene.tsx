@@ -18,6 +18,7 @@ import planetfrag1 from '@/app/shaders/planetfrag1.glsl';
 import planetfrag2 from '@/app/shaders/planetfrag2.glsl';
 import planetfrag3 from '@/app/shaders/planetfrag3.glsl';
 import planetvert1 from '@/app/shaders/planetvert1.glsl';
+import { style } from "motion/react-client";
 
 const info = [
     { id: "About Me", position: [4, -1.5, 1], scale: 1, frag: planetfrag1, groupRtt: { x: 0, y: Math.PI/1.6, z: 0 }, groupPos: { x: 0.61, y: 1, z: 7 }, labelPos: [1.3, 0.5, 2] as [number, number, number] },
@@ -69,8 +70,28 @@ function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selec
 
     const ref = useRef<Mesh>(null);
     const materialRef = useRef<CustomShaderMaterial | null>(null);
+    const jointID = id.replace(' ', '');
+
+    const onHover = () => {
+        document.body.style.cursor = 'pointer';
+        gsap.to(`.${jointID}`, {
+            duration: 0.5,
+            scale: scale + .75,
+            ease: "power2.inOut"
+        });
+    }
+
+    const leaveHover = () => {
+        document.body.style.cursor = 'default';
+        gsap.to(`.${jointID}`, {
+            duration: 0.5,
+            scale: scale,
+            ease: "power2.inOut"
+        });
+    }
     
     const sphereHandler = () => {
+
         selection(id);
         
         gsap.to(groupRef.current.rotation, {
@@ -99,7 +120,7 @@ function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selec
 
     return (
         <group>
-            <mesh ref={ref} position={ position } scale={ scale } onClick={sphereHandler} onPointerEnter={() => {document.body.style.cursor = 'pointer'}} onPointerLeave={() => {document.body.style.cursor = 'default'}}>
+            <mesh ref={ref} position={ position } scale={ scale } onClick={sphereHandler} onPointerEnter={onHover} onPointerLeave={leaveHover}>
                 <sphereGeometry args={[2.5, 64, 64]} />
                 <CustomShaderMaterial 
                     ref={materialRef}
@@ -112,9 +133,9 @@ function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selec
                     }}
                 />
             </mesh>
-            <Float speed={1.3} rotationIntensity={0.2} floatIntensity={0.2}>
+            <Float speed={1.3} rotationIntensity={0.3} floatIntensity={0.3}>
                 <Html position={labelPos} center>
-                    <div className={`transform hover:scale-125 w-36 text-center text-white font-sans font-bold text-lg rounded-md bg-violet-950/60 backdrop-blur-md p-2 ${(selected !== null) ? 'animate-fadeOut opacity-0' : 'animate-fadeIn'}`}>
+                    <div className={`${jointID} w-36 text-center text-white font-sans font-bold text-lg rounded-md bg-violet-950/60 backdrop-blur-md p-2 pointer-events-none ${(selected !== null) ? 'animate-fadeOut opacity-0' : 'animate-fadeIn'}`} style={{ transform: `scale(${scale})`}}>
                         {id.toUpperCase()}
                     </div>
                 </Html>
