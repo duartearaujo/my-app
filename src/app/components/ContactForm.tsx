@@ -1,16 +1,21 @@
+"use client";
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { env } from 'process';
 
 export default function ContactForm() {
 
-    const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
+        const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string;
+        const userID = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
 
         emailjs.sendForm(
-            'service_your_service_id', // Replace with your service ID
-            'template_your_template_id', // Replace with your template ID
-            e.currentTarget,
-            'user_your_user_id' // Replace with your user ID
+            serviceID,
+            templateID,
+            event.currentTarget,
+            userID
         )
         .then((result) => {
             console.log('Email sent successfully:', result.text);
@@ -20,11 +25,11 @@ export default function ContactForm() {
             alert('Failed to send message. Please try again later.');
         });
 
-        e.currentTarget.reset(); // Reset the form after submission
+        event.currentTarget.reset();
     }
 
     return (
-        <form className="flex flex-col gap-5 p-5 bg-violet-950/60 backdrop-blur-md rounded-xl w-full max-w-md mx-auto mt-64 fade">
+        <form className="flex flex-col gap-5 p-5 font-sans bg-violet-950/60 backdrop-blur-md rounded-xl w-full max-w-md mx-auto mt-64 fade" onSubmit={sendEmail}>
             <h2 className="text-2xl font-bold text-white">Contact Me</h2>
             <input
                 type="text"
@@ -48,7 +53,7 @@ export default function ContactForm() {
             ></textarea>
             <button
                 type="submit"
-                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200"
+                className="p-2 bg-blue-500 text-white font-sans font-semibold rounded hover:bg-blue-600 transition-colors duration-200"
             >
                 Send Message
             </button>

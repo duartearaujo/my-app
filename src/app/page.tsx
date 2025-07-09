@@ -16,10 +16,12 @@ import Section from "./components/Section";
 import { useEffect, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import ContactForm from "./components/ContactForm";
+import Header from "./components/Header";
 
 export default function Home() {
 
 	const [selected, setSelected] = useState<string | null>(null);
+	const [isVisible, setIsVisible] = useState<string | null>(null);
 
 	useEffect(() => {
 		console.log("Selected:", selected);
@@ -27,8 +29,9 @@ export default function Home() {
 
 	return (
 		<>	
-			<Scene selection={setSelected} selected={selected} />
-			<Section id={'About Me'} selection={setSelected} selected={selected} >
+			<Scene setIsVisible={setIsVisible} selection={setSelected} selected={selected} />
+			<Header fun={setIsVisible} selected={selected} />
+			<Section id={'About Me'} selection={setSelected} selected={selected} isVisible={isVisible} >
 				<Text>
 					<Profile image="/foto1.jpg" />
 					<h1 className="text-4xl">Duarte Araújo</h1>
@@ -49,7 +52,7 @@ export default function Home() {
 					</div>
 				</Text>
 			</Section>
-			<Section id={'Projects'} selection={setSelected} selected={selected} >
+			<Section id={'Projects'} selection={setSelected} selected={selected} isVisible={isVisible} >
 				<div className="project-card-wrapper flex flex-row p-5 gap-5 h-full w-full justify-center opacity-1">
 					<div className="flex flex-col gap-5 w-3/4 opacity-1">
 						<ProjectCard>
@@ -73,7 +76,7 @@ export default function Home() {
 					</div>
         		</div>
 			</Section>
-			<Section id={'Contacts'} selection={setSelected} selected={selected} >
+			<Section id={'Contacts'} selection={setSelected} selected={selected} isVisible={isVisible} >
 				<ContactForm />
 			</Section>
 		</>
