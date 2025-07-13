@@ -1,11 +1,8 @@
-import { motion, AnimatePresence } from "motion/react";
-import Header from "./Header";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
-import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
+import { JSX, useRef } from "react";
 
-export default function Section({ children, isVisible, selected, selection, id }: { children: any; isVisible: string | null; selected: string | null; selection: (id: string | null) => void; id?: string }) {
+export default function Section({ children, isVisible, selected, selection, id }: { children: JSX.Element | JSX.Element[]; isVisible: string | null; selected: string | null; selection: (id: string | null) => void; id?: string }) {
 
     const sectionRef = useRef(null);
 
@@ -35,10 +32,8 @@ export default function Section({ children, isVisible, selected, selection, id }
     return (
         <>
             {selected === id ? (
-                <section className="flex flex-col min-h-screen items-center" ref={sectionRef}>
-                    <div className="section flex w-full h-[calc(100%-(4rem))]">
-                        {children}
-                    </div>
+                <section className="section flex flex-col w-full h-[calc(100%-(4rem))] items-center" ref={sectionRef}> 
+                    {children}
                 </section>
             ) : null}
         </>

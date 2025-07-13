@@ -1,7 +1,5 @@
 "use client";
-import { useState } from 'react';
 import emailjs from '@emailjs/browser';
-import { env } from 'process';
 
 export default function ContactForm() {
 
@@ -29,31 +27,31 @@ export default function ContactForm() {
     }
 
     return (
-        <form className="flex flex-col gap-5 p-5 font-sans bg-violet-950/60 backdrop-blur-md rounded-xl w-full max-w-md mx-auto mt-64 fade" onSubmit={sendEmail}>
-            <h2 className="text-2xl font-bold text-white">Contact Me</h2>
+        <form className="flex flex-col gap-5 p-5 font-sans bg-violet-950/60 backdrop-blur-md rounded-2xl w-full max-w-md mx-auto mt-64 fade" onSubmit={sendEmail}>
+            <h2 className="text-2xl font-bold text-white text-center">Contact Me</h2>
             <input
                 type="text"
                 name="name"
                 placeholder="Your Name"
                 required
-                className="p-2 rounded bg-white text-black"
+                className="p-2 rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200"
             />
             <input
                 type="email"
                 name="email"
                 placeholder="Your Email"
                 required
-                className="p-2 rounded bg-white text-black"
+                className="p-2 rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200"
             />
             <textarea
                 name="message"
                 placeholder="Your Message"
                 required
-                className="p-2 rounded bg-white text-black h-32"
+                className="p-2 rounded bg-white text-black h-32 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200"
             ></textarea>
             <button
                 type="submit"
-                className="p-2 bg-blue-500 text-white font-sans font-semibold rounded hover:bg-blue-600 transition-colors duration-200"
+                className="p-2 bg-purple-900 text-white font-sans font-semibold rounded hover:bg-purple-600 transition-colors duration-200"
             >
                 Send Message
             </button>

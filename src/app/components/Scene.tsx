@@ -1,13 +1,11 @@
 "use client";
 
-import { use, useRef } from "react";
-import { useEffect } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { Float, OrbitControls } from "@react-three/drei";
+import { useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float } from "@react-three/drei";
 import gsap from "gsap";
 import { Html } from "@react-three/drei";
-import { useControls } from "leva";
-import { Camera, DirectionalLight, Fog, FogExp2, Group, MeshPhysicalMaterial, ShaderMaterial, SphereGeometry, Texture, UniformsLib, UniformsUtils } from "three";
+import { Group, MeshPhysicalMaterial, ShaderMaterial, SphereGeometry } from "three";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
 import CustomShaderMaterial from "three-custom-shader-material";
@@ -18,11 +16,12 @@ import planetfrag1 from '@/app/shaders/planetfrag1.glsl';
 import planetfrag2 from '@/app/shaders/planetfrag2.glsl';
 import planetfrag3 from '@/app/shaders/planetfrag3.glsl';
 import planetvert1 from '@/app/shaders/planetvert1.glsl';
+import { useGSAP } from "@gsap/react";
 
 const info = [
-    { id: "About Me", position: [4, -1.5, 1], scale: 1, frag: planetfrag1, groupRtt: { x: 0, y: Math.PI/1.6, z: 0 }, groupPos: { x: 0.61, y: 1, z: 7 }, labelPos: [1.3, 0.5, 2] as [number, number, number] },
-    { id: "Projects", position: [-6.5, -0.8, -3], scale: 0.8, frag: planetfrag2, groupRtt: { x: 0, y: -Math.PI/1.6, z: 0 }, groupPos: { x: -3, y: 0.7, z: 7 }, labelPos: [-8.5, 0, -3] as [number, number, number] },
-    { id: "Contacts", position: [0, 1, -6], scale: 0.45, frag: planetfrag3, groupRtt: { x: Math.PI/5, y: 0, z: 0 }, groupPos: { x: 0, y: -3.25, z: 7.2 }, labelPos: [0.5, 0.5, -6] as [number, number, number] }
+    { id: "About Me", position: [4, -1.5, 1] as [number, number, number], scale: 1, frag: planetfrag1, groupRtt: { x: 0, y: Math.PI/1.6, z: 0 }, groupPos: { x: 0.61, y: 1, z: 7 }, labelPos: [1.3, 0.5, 2] as [number, number, number] },
+    { id: "Projects", position: [-6.5, -0.8, -3] as [number, number, number], scale: 0.8, frag: planetfrag2, groupRtt: { x: 0, y: -Math.PI/1.6, z: 0 }, groupPos: { x: -3, y: 0.7, z: 7 }, labelPos: [-8.5, 0, -3] as [number, number, number] },
+    { id: "Contacts", position: [0, 1, -6] as [number, number, number], scale: 0.45, frag: planetfrag3, groupRtt: { x: Math.PI/5, y: 0, z: 0 }, groupPos: { x: 0, y: -3.25, z: 7.2 }, labelPos: [0.5, 0.5, -6] as [number, number, number] }
 ]
 
 const sphereGeometry = new SphereGeometry(2.5, 64, 64);
@@ -45,7 +44,7 @@ function Background() {
     useFrame((state) => {
         if (ref.current){
             const {clock} = state;
-            ref.current.material.uniforms.uTime.value = clock.getElapsedTime();
+            (ref.current.material as ShaderMaterial).uniforms.uTime.value = clock.getElapsedTime();
         }
     });
     
@@ -60,26 +59,39 @@ function Background() {
     });
     
     return (
-            <mesh ref={ref} position={[0, 0, -30]} renderOrder={-1}>
+            <mesh ref={ref} material={material} position={[0, 0, -30]} renderOrder={-1}>
                 <planeGeometry args={[2, 2]} />
-                <shaderMaterial attach="material" args={[material]} />
             </mesh>
     );
 }
 
-function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selection, selected, setIsVisible, groupRef }) {
+type SphereProps = {
+    id: string;
+    scale: number;
+    position: [number, number, number];
+    frag: string;
+    groupPos: { x: number; y: number; z: number };
+    groupRtt: { x: number; y: number; z: number };
+    labelPos: [number, number, number];
+    selection: (id: string | null) => void;
+    selected: string | null;
+    setIsVisible: (id: string | null) => void;
+    groupRef: React.RefObject<Group>;
+};
+
+function Sphere(props: SphereProps) {
 
     const sphereRef = useRef<Mesh>(null);
-    const materialRef = useRef<CustomShaderMaterial | null>(null);
-    const jointID = id.replace(' ', '');
+    const materialRef = useRef(null);
+    const jointID = props.id.replace(' ', '');
 
     const onHover = () => {
-        if (selected === null) {
+        if (props.selected === null) {
             document.body.style.cursor = 'pointer';
         }
         gsap.to(`.${jointID}`, {
             duration: 0.5,
-            scale: scale + .75,
+            scale: props.scale + .75,
             ease: "power2.inOut"
         });
     }
@@ -88,30 +100,14 @@ function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selec
         document.body.style.cursor = 'default';
         gsap.to(`.${jointID}`, {
             duration: 0.5,
-            scale: scale,
+            scale: props.scale,
             ease: "power2.inOut"
         });
     }
     
     const sphereHandler = () => {
-        
-        setIsVisible(id);
-        selection(id);
-        
-        gsap.to(groupRef.current.rotation, {
-            x: groupRtt.x,
-            y: groupRtt.y,
-            z: groupRtt.z,
-            duration: 1,
-            ease: "power2.inOut"
-        });
-        gsap.to(groupRef.current.position, {
-            x: groupPos.x,
-            y: groupPos.y,
-            z: groupPos.z,
-            duration: 1,
-            ease: "power2.inOut"
-        });
+        props.setIsVisible(props.id);
+        props.selection(props.id);
     }
 
     useFrame((state, delta) => {
@@ -122,21 +118,21 @@ function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selec
 
     return (
         <group>
-            <mesh ref={sphereRef} geometry={sphereGeometry} position={ position } scale={ scale } onClick={sphereHandler} onPointerEnter={onHover} onPointerLeave={leaveHover}>
+            <mesh ref={sphereRef} geometry={sphereGeometry} position={ props.position } scale={ props.scale } onClick={sphereHandler} onPointerEnter={onHover} onPointerLeave={leaveHover}>
                 <CustomShaderMaterial 
                     ref={materialRef}
                     baseMaterial={MeshPhysicalMaterial} 
                     vertexShader={planetvert1} 
-                    fragmentShader={frag} 
+                    fragmentShader={props.frag} 
                     uniforms={{
                         density: { value: 1.0 }
                     }}
                 />
             </mesh>
             <Float speed={1.3} rotationIntensity={0.3} floatIntensity={0.3}>
-                <Html position={labelPos} center>
-                    <div className={`${jointID} w-36 text-center text-white font-sans font-bold text-lg rounded-md bg-violet-950/60 backdrop-blur-md p-2 pointer-events-none ${(selected !== null) ? 'animate-fadeOut opacity-0' : 'animate-fadeIn'}`} style={{ transform: `scale(${scale})`}}>
-                        {id.toUpperCase()}
+                <Html position={props.labelPos} center>
+                    <div className={`${jointID} w-36 text-center text-white font-sans font-bold text-lg rounded-md bg-violet-950/60 backdrop-blur-md p-2 pointer-events-none ${(props.selected !== null) ? 'animate-fadeOut opacity-0' : 'animate-fadeIn'}`} style={{ transform: `scale(${props.scale})`}}>
+                        {props.id.toUpperCase()}
                     </div>
                 </Html>
             </Float>
@@ -146,11 +142,10 @@ function Sphere({ id, scale, position, frag, groupPos, groupRtt, labelPos, selec
 
 export default function Scene({ setIsVisible, selection, selected }: { setIsVisible: (id: string | null) => void; selection: (id: string | null) => void; selected: string | null }) {
 
-    const cameraRef = useRef<Camera | null>(null);
-    const groupRef = useRef<Group>(null);
+    const groupRef = useRef<Group>(new Group());
 
-    useEffect(() => {
-        if ((selected === null) && cameraRef.current && groupRef.current) {
+    useGSAP(() => {
+        if ((selected === null) && groupRef.current) {
             gsap.to(groupRef.current.rotation, {
                 x: 0,
                 y: 0,
@@ -165,12 +160,31 @@ export default function Scene({ setIsVisible, selection, selected }: { setIsVisi
                 duration: 1,
                 ease: "power2.inOut"
             });
+        } 
+        else if (selected !== null && groupRef.current) {
+            const selectedSphere = info.find(item => item.id === selected);
+            if (selectedSphere) {
+                gsap.to(groupRef.current.rotation, {
+                    x: selectedSphere.groupRtt.x,
+                    y: selectedSphere.groupRtt.y,
+                    z: selectedSphere.groupRtt.z,
+                    duration: 1,
+                    ease: "power2.inOut"
+                });
+                gsap.to(groupRef.current.position, {
+                    x: selectedSphere.groupPos.x,
+                    y: selectedSphere.groupPos.y,
+                    z: selectedSphere.groupPos.z,
+                    duration: 1,
+                    ease: "power2.inOut"
+                });
+            }
         }
     }, [selected]);
 
     return (
         <div className="fixed w-full h-full">
-            <Canvas camera={{position: [0, 2, 5]}} onCreated={({camera}) => { cameraRef.current = camera }}>
+            <Canvas camera={{position: [0, 2, 5]}}>
                 <Background />
                 <group ref={groupRef}>
                     <Title text="MY WEBSITE"/>

@@ -1,17 +1,13 @@
 "use client";
 
-import { on } from "events";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 
-import Box from "./components/Box";
 import Profile from "./components/Profile";
 import Text from "./components/Text";
 import Scene from "./components/Scene";
 import LinkCard from "./components/LinkCard";
-import Background from "./components/Background";
 import Section from "./components/Section";
 import { useEffect, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
@@ -30,7 +26,7 @@ export default function Home() {
 	return (
 		<>	
 			<Scene setIsVisible={setIsVisible} selection={setSelected} selected={selected} />
-			<Header fun={setIsVisible} selected={selected} />
+			{selected !== null ? <Header fun={setIsVisible} /> : null}
 			<Section id={'About Me'} selection={setSelected} selected={selected} isVisible={isVisible} >
 				<Text>
 					<Profile image="/foto1.jpg" />

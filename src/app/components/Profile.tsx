@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function Profile({ image }: { image: any }) {
+export default function Profile({ image }: { image: string }) {
     return (
         <div className="flex h-auto justify-center">
             <Image
