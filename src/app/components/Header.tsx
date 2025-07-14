@@ -6,11 +6,12 @@ gsap.registerPlugin(useGSAP);
 
 function HeaderButton({ children, onClick }: {children: string; onClick: (id: string) => void;}) {
     return (
-        <div className="hover:bg-[radial-gradient(closest-side,var(--tw-gradient-stops))] from-purple-500 via-purple-500 to-purple-900">
-            <button className="" onClick={() => onClick(children)}>
-                {children}
-            </button>
-        </div>
+        <button className={(children === 'About Me') ? 'ml-auto group relative p-2' : 'group relative p-2'} onClick={() => onClick(children)}>
+            <span className="relative z-10 bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-300 ease-out text-lg font-bold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                {children.toUpperCase()}
+            </span>
+            <div className="absolute inset-0 transition ease-in-out duration-300 opacity-0 group-hover:opacity-100 bg-[radial-gradient(closest-side,var(--tw-gradient-stops))] from-purple-500 via-purple-500 to-violet-950"></div>
+        </button>
     );
 }
 
@@ -22,19 +23,18 @@ export default function Header({ fun }: {fun: (id: string | null) => void;}) {
 
     useGSAP(() => {
         gsap.from('.header', {
-            duration: 0.5,
+            duration: 0.3,
             opacity: 0,
             y: -50,
             ease: "power3.out",
-            delay: 0.5,
-            stagger: 1
+            delay: 0.5
         });
     });
 
     const onClickBack = contextSafe(() => {
         fun(null);
         gsap.to(header.current, {
-            duration: 0.5,
+            duration: 0.3,
             opacity: 0,
             y: -50,
             ease: "power3.in",
@@ -62,10 +62,10 @@ export default function Header({ fun }: {fun: (id: string | null) => void;}) {
 
     return (
         <div ref={header} className="header flex flex-row rounded-b-lg m-auto top-0 z-10 pl-10 pr-10 gap-10 items-center font-sans font-semibold h-16 w-[calc(100%-40px)] bg-violet-950">
-            <button className="" onClick={() => onClickSection("Back")}>Back</button>
-            <button className="ml-auto" onClick={() => onClickSection("About Me")}>About Me</button>
-            <button className="" onClick={() => onClickSection("Projects")}>Projects</button>
-            <button className="" onClick={() => onClickSection("Contacts")}>Contacts</button>
+            <HeaderButton onClick={onClickSection}>Back</HeaderButton>
+            <HeaderButton onClick={onClickSection}>About Me</HeaderButton>
+            <HeaderButton onClick={onClickSection}>Projects</HeaderButton>
+            <HeaderButton onClick={onClickSection}>Contacts</HeaderButton>
         </div>
     );
 }

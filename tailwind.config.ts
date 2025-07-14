@@ -29,7 +29,10 @@ export default {
       animation: {
         fadeIn: "fadeIn 1.5s ease",
         fadeOut: "fadeOut 0.5s ease",
-      }
+      },
+      fontFamily: {
+        climate: ["Climate_Crisis"]
+      },
     },
   },
   plugins: [],

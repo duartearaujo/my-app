@@ -9,7 +9,7 @@ export default function Section({ children, isVisible, selected, selection, id }
     useGSAP(() => {
         if((isVisible === id) && (selected === id)) {
             gsap.from('.fade', {
-                duration: 1,
+                duration: 0.5,
                 opacity: 0,
                 ease: "power3.out",
                 delay: 0.5
@@ -18,10 +18,9 @@ export default function Section({ children, isVisible, selected, selection, id }
         }
         else if((isVisible !== id) && (selected === id)) {
             gsap.to('.fade', {
-                duration: 0.5,
+                duration: 0.3,
                 opacity: 0,
                 ease: "power3.in",
-                delay: 0.3,
                 onComplete: () => {
                     selection(isVisible);
                 }
