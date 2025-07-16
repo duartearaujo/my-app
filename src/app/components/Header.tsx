@@ -7,10 +7,9 @@ gsap.registerPlugin(useGSAP);
 function HeaderButton({ children, onClick }: {children: string; onClick: (id: string) => void;}) {
     return (
         <button className={(children === 'About Me') ? 'ml-auto group relative p-2' : 'group relative p-2'} onClick={() => onClick(children)}>
-            <span className="relative z-10 bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-300 ease-out text-lg font-bold drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+            <span className="relative z-10 bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-300 ease-out text-lg font-bold">
                 {children.toUpperCase()}
             </span>
-            <div className="absolute inset-0 transition ease-in-out duration-300 opacity-0 group-hover:opacity-100 bg-[radial-gradient(closest-side,var(--tw-gradient-stops))] from-purple-500 via-purple-500 to-violet-950"></div>
         </button>
     );
 }

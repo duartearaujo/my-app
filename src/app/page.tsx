@@ -9,10 +9,11 @@ import Text from "./components/Text";
 import Scene from "./components/Scene";
 import LinkCard from "./components/LinkCard";
 import Section from "./components/Section";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import ContactForm from "./components/ContactForm";
 import Header from "./components/Header";
+import Loading from "./components/Loading";
 
 export default function Home() {
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { use, useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, useHelper } from "@react-three/drei";
 import gsap from "gsap";
 import { Html } from "@react-three/drei";
-import { Group, MeshPhysicalMaterial, ShaderMaterial, SphereGeometry } from "three";
+import { DirectionalLight, Group, MeshPhysicalMaterial, ShaderMaterial, SphereGeometry, SpotLight } from "three";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
 import CustomShaderMaterial from "three-custom-shader-material";
@@ -17,11 +17,12 @@ import planetfrag2 from '@/app/shaders/planetfrag2.glsl';
 import planetfrag3 from '@/app/shaders/planetfrag3.glsl';
 import planetvert1 from '@/app/shaders/planetvert1.glsl';
 import { useGSAP } from "@gsap/react";
+import { useControls } from "leva";
 
 const info = [
     { id: "About Me", position: [4, -1.5, 1] as [number, number, number], scale: 1, frag: planetfrag1, groupRtt: { x: 0, y: Math.PI/1.6, z: 0 }, groupPos: { x: 0.61, y: 1, z: 7 }, labelPos: [1.3, 0.5, 2] as [number, number, number] },
     { id: "Projects", position: [-6.5, -0.8, -3] as [number, number, number], scale: 0.8, frag: planetfrag2, groupRtt: { x: 0, y: -Math.PI/1.6, z: 0 }, groupPos: { x: -3, y: 0.7, z: 7 }, labelPos: [-8.5, 0, -3] as [number, number, number] },
-    { id: "Contacts", position: [0, 1, -6] as [number, number, number], scale: 0.45, frag: planetfrag3, groupRtt: { x: Math.PI/5, y: 0, z: 0 }, groupPos: { x: 0, y: -3.25, z: 7.2 }, labelPos: [0.5, 0.5, -6] as [number, number, number] }
+    { id: "Contacts", position: [0.25, 1, -6.5] as [number, number, number], scale: 0.45, frag: planetfrag3, groupRtt: { x: Math.PI/4.8, y: 0, z: 0 }, groupPos: { x: -0.25, y: -3.6, z: 7.5 }, labelPos: [0.5, 0.5, -6] as [number, number, number] }
 ]
 
 const sphereGeometry = new SphereGeometry(2.5, 64, 64);
@@ -143,6 +144,21 @@ function Sphere(props: SphereProps) {
 export default function Scene({ setIsVisible, selection, selected }: { setIsVisible: (id: string | null) => void; selection: (id: string | null) => void; selected: string | null }) {
 
     const groupRef = useRef<Group>(new Group());
+    
+    const Light = () => {
+        const light = useControls("light", {
+            position: { value: [1.6, 10, 10], min: -10, max: 10, step: 0.1 },
+            intensity: { value: 3, min: 0, max: 5, step: 0.1 },
+            color: { value: "#ffffff" }
+        });
+        const directionalLight = useRef<DirectionalLight>(new DirectionalLight());
+        return (
+            <>
+                <ambientLight intensity={0.25} />
+                <directionalLight ref={directionalLight} position={light.position} intensity={light.intensity} castShadow />
+            </>
+        );
+    }
 
     useGSAP(() => {
         if ((selected === null) && groupRef.current) {
@@ -187,6 +203,7 @@ export default function Scene({ setIsVisible, selection, selected }: { setIsVisi
             <Canvas camera={{position: [0, 2, 5]}}>
                 <Background />
                 <group ref={groupRef}>
+                    <Light />
                     <Title text="MY WEBSITE"/>
                     {info.map((item) => (
                         <Sphere 

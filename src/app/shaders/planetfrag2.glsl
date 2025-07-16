@@ -18,6 +18,5 @@ void main () {
     float v = noise(vec4(vPosition * frequency, sin(PI * .9))) * amplitude;
     float t = patternZebra(v);
     vec3 fragColor = mix(vec3(0.0, 1.0, 0.6667), vec3(0.0118, 0.2196, 0.2471), t);
-    csm_FragColor = vec4(fragColor, 1.);
     csm_DiffuseColor.rgb = vec3(fragColor);
 }
