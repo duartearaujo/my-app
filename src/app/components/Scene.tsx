@@ -1,11 +1,11 @@
 "use client";
 
-import { use, useEffect, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, useHelper } from "@react-three/drei";
+import { use, useRef } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Float } from "@react-three/drei";
 import gsap from "gsap";
 import { Html } from "@react-three/drei";
-import { DirectionalLight, Group, MeshPhysicalMaterial, ShaderMaterial, SphereGeometry, SpotLight } from "three";
+import { DirectionalLight, Group, MeshPhysicalMaterial, ShaderMaterial, SphereGeometry } from "three";
 import { Mesh } from "three";
 import { Text } from "@react-three/drei";
 import CustomShaderMaterial from "three-custom-shader-material";
@@ -18,6 +18,7 @@ import planetfrag3 from '@/app/shaders/planetfrag3.glsl';
 import planetvert1 from '@/app/shaders/planetvert1.glsl';
 import { useGSAP } from "@gsap/react";
 import { useControls } from "leva";
+import Ready from "./Ready";
 
 const info = [
     { id: "About Me", position: [4, -1.5, 1] as [number, number, number], scale: 1, frag: planetfrag1, groupRtt: { x: 0, y: Math.PI/1.6, z: 0 }, groupPos: { x: 0.61, y: 1, z: 7 }, labelPos: [1.3, 0.5, 2] as [number, number, number] },
@@ -141,8 +142,9 @@ function Sphere(props: SphereProps) {
     );
 }
 
-export default function Scene({ setIsVisible, selection, selected }: { setIsVisible: (id: string | null) => void; selection: (id: string | null) => void; selected: string | null }) {
+export default function Scene({ setIsLoaded, isLoaded, setIsVisible, selection, selected }: { setIsLoaded: (bool: boolean) => void; isLoaded: boolean; setIsVisible: (id: string | null) => void; selection: (id: string | null) => void; selected: string | null }) {
 
+    const scene = useRef(null);
     const groupRef = useRef<Group>(new Group());
     
     const Light = () => {
@@ -159,7 +161,7 @@ export default function Scene({ setIsVisible, selection, selected }: { setIsVisi
             </>
         );
     }
-
+    
     useGSAP(() => {
         if ((selected === null) && groupRef.current) {
             gsap.to(groupRef.current.rotation, {
@@ -199,8 +201,9 @@ export default function Scene({ setIsVisible, selection, selected }: { setIsVisi
     }, [selected]);
 
     return (
-        <div className="fixed w-full h-full">
+        <div ref={scene} className="fixed w-full h-full">
             <Canvas camera={{position: [0, 2, 5]}}>
+                {!isLoaded && <Ready setIsLoaded={setIsLoaded} />}
                 <Background />
                 <group ref={groupRef}>
                     <Light />

@@ -9,7 +9,7 @@ import Text from "./components/Text";
 import Scene from "./components/Scene";
 import LinkCard from "./components/LinkCard";
 import Section from "./components/Section";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import ContactForm from "./components/ContactForm";
 import Header from "./components/Header";
@@ -19,6 +19,7 @@ export default function Home() {
 
 	const [selected, setSelected] = useState<string | null>(null);
 	const [isVisible, setIsVisible] = useState<string | null>(null);
+	const [isLoaded, setIsLoaded] = useState(false);
 
 	useEffect(() => {
 		console.log("Selected:", selected);
@@ -26,7 +27,8 @@ export default function Home() {
 
 	return (
 		<>	
-			<Scene setIsVisible={setIsVisible} selection={setSelected} selected={selected} />
+			<Loading isLoaded={isLoaded} />
+			<Scene setIsLoaded={setIsLoaded} isLoaded={isLoaded} setIsVisible={setIsVisible} selection={setSelected} selected={selected} /> 
 			{selected !== null ? <Header fun={setIsVisible} /> : null}
 			<Section id={'About Me'} selection={setSelected} selected={selected} isVisible={isVisible} >
 				<Text>
