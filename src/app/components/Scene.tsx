@@ -148,16 +148,11 @@ export default function Scene({ setIsLoaded, isLoaded, setIsVisible, selection, 
     const groupRef = useRef<Group>(new Group());
     
     const Light = () => {
-        const light = useControls("light", {
-            position: { value: [1.6, 10, 10], min: -10, max: 10, step: 0.1 },
-            intensity: { value: 3, min: 0, max: 5, step: 0.1 },
-            color: { value: "#ffffff" }
-        });
         const directionalLight = useRef<DirectionalLight>(new DirectionalLight());
         return (
             <>
                 <ambientLight intensity={0.25} />
-                <directionalLight ref={directionalLight} position={light.position} intensity={light.intensity} castShadow />
+                <directionalLight ref={directionalLight} position={[1.6, 10, 10]} intensity={3} castShadow />
             </>
         );
     }
