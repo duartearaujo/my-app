@@ -15,7 +15,7 @@ export default function Loading({ isLoaded }: { isLoaded: boolean }) {
             });
         }
         else {
-            let tl = gsap.timeline({ defaults: { duration: 0.5, ease: "power2.inOut" } });
+            const tl = gsap.timeline({ defaults: { duration: 0.5, ease: "power2.inOut" } });
             tl.to(".loading-circle-1", {
                 y: -20,
                 repeat: -1,
