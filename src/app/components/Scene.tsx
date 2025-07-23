@@ -151,8 +151,8 @@ export default function Scene({ setIsLoaded, isLoaded, setIsVisible, selection, 
         const directionalLight = useRef<DirectionalLight>(new DirectionalLight());
         return (
             <>
-                <ambientLight intensity={0.25} />
-                <directionalLight ref={directionalLight} position={[1.6, 10, 10]} intensity={3} castShadow />
+                <ambientLight intensity={0.2} />
+                <directionalLight ref={directionalLight} position={[1.6, 10, 10]} intensity={2.5} castShadow />
             </>
         );
     }
