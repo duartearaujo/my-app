@@ -1,7 +1,7 @@
 "use client";
 
-import { use, useRef } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import gsap from "gsap";
 import { Html } from "@react-three/drei";
@@ -17,7 +17,6 @@ import planetfrag2 from '@/app/shaders/planetfrag2.glsl';
 import planetfrag3 from '@/app/shaders/planetfrag3.glsl';
 import planetvert1 from '@/app/shaders/planetvert1.glsl';
 import { useGSAP } from "@gsap/react";
-import { useControls } from "leva";
 import Ready from "./Ready";
 
 const info = [
