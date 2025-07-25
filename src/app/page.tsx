@@ -15,7 +15,6 @@ import ProjectCard from "./components/ProjectCard";
 import ContactForm from "./components/ContactForm";
 import Header from "./components/Header";
 import Loading from "./components/Loading";
-import { IconContext } from "react-icons";
 
 export default function Home() {
 
