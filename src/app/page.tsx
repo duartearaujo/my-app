@@ -46,23 +46,23 @@ export default function Home() {
 						If you want to reach out, you can do so by clicking the links below, or send me a message through the Contact section of this website.
 					</p>
 					<div className="flex flex-row gap-2 sm:gap-5 items-center justify-center text-sm sm:text-lg ">
-							<LinkCard link="https://www.linkedin.com/in/duarte-araújo-91a168307" download={false}>
-								<FaLinkedin className="text-2xl sm:text-4xl"/>
-								<h1>LinkedIn</h1>
-							</LinkCard>
-							<LinkCard link="https://github.com/duartearaujo" download={false}>
-								<FaGithub className="text-2xl sm:text-4xl" />
-								<h1>GitHub</h1>
-							</LinkCard>
-							<LinkCard link="/DuarteAraujo_CV.pdf" download={true}>
-								<FaFileDownload className="text-2xl sm:text-4xl" />
-								<h1>Resume</h1>
-							</LinkCard>
+						<LinkCard link="https://www.linkedin.com/in/duarte-araújo-91a168307" download={false}>
+							<FaLinkedin className="text-2xl sm:text-4xl"/>
+							<h1>LinkedIn</h1>
+						</LinkCard>
+						<LinkCard link="https://github.com/duartearaujo" download={false}>
+							<FaGithub className="text-2xl sm:text-4xl" />
+							<h1>GitHub</h1>
+						</LinkCard>
+						<LinkCard link="/DuarteAraujo_CV.pdf" download={true}>
+							<FaFileDownload className="text-2xl sm:text-4xl" />
+							<h1>Resume</h1>
+						</LinkCard>
 					</div>
 				</Text>
 			</Section>
 			<Section id={'Projects'} selection={setSelected} selected={selected} isVisible={isVisible} >
-				<div className="project-card-wrapper flex flex-row p-5 gap-5 h-full w-full justify-center opacity-1">
+				<div className="project-card-wrapper flex flex-row flex-wrap-reverse md:flex-nowrap p-5 gap-5 h-full w-full justify-center opacity-1">
 					<div className="flex flex-col gap-5 w-3/4 opacity-1">
 						<ProjectCard>
 							<Image src="/projects/1.png" alt="Project" width={300} height={200} className="rounded-lg" />
