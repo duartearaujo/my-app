@@ -15,6 +15,7 @@ import ProjectCard from "./components/ProjectCard";
 import ContactForm from "./components/ContactForm";
 import Header from "./components/Header";
 import Loading from "./components/Loading";
+import { IconContext } from "react-icons";
 
 export default function Home() {
 
@@ -45,19 +46,19 @@ export default function Home() {
 						I'm also passionate about stories and everything creative, especially if it's audiovisual, so being able to incorporate that into my work and making something unique is always exciting to me!
 						If you want to reach out, you can do so by clicking the links below, or send me a message through the Contact section of this website.
 					</p>
-					<div className="flex flex-row gap-5 items-center justify-center">
-						<LinkCard link="https://www.linkedin.com/in/duarte-araújo-91a168307" download={false}>
-							<FaLinkedin size={36} />
-							<h1>LinkedIn</h1>
-						</LinkCard>
-						<LinkCard link="https://github.com/duartearaujo" download={false}>
-							<FaGithub size={36} />
-							<h1>GitHub</h1>
-						</LinkCard>
-						<LinkCard link="/DuarteAraujo_CV.pdf" download={true}>
-							<FaFileDownload size={36} />
-							<h1>Resume</h1>
-						</LinkCard>
+					<div className="flex flex-row gap-2 sm:gap-5 items-center justify-center text-sm sm:text-lg ">
+							<LinkCard link="https://www.linkedin.com/in/duarte-araújo-91a168307" download={false}>
+								<FaLinkedin className="text-2xl sm:text-4xl"/>
+								<h1>LinkedIn</h1>
+							</LinkCard>
+							<LinkCard link="https://github.com/duartearaujo" download={false}>
+								<FaGithub className="text-2xl sm:text-4xl" />
+								<h1>GitHub</h1>
+							</LinkCard>
+							<LinkCard link="/DuarteAraujo_CV.pdf" download={true}>
+								<FaFileDownload className="text-2xl sm:text-4xl" />
+								<h1>Resume</h1>
+							</LinkCard>
 					</div>
 				</Text>
 			</Section>
